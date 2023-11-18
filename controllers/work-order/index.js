@@ -21,7 +21,10 @@ const getWorkOrder = async (req, res) => {
 const getWorkOrderByID = async (req, res) => {
   try {
     const { id } = req.params;
+
     const workOrder = await db.workOrder.findByPk(id);
+    if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+
     return httpSuccess(res, workOrder);
   } catch (error) {
     return httpInternalServerError(res);
@@ -53,29 +56,32 @@ const createWorkOrder = async (req, res) => {
   }
 };
 
+/** @type {import('express').Router} */
 const sendNotification = async (req, res) => {
   try {
     const { id } = req.params;
-    const workOrder = await db.workOrder.findByPk(id);
 
+    const workOrder = await db.workOrder.findByPk(id);
     if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
 
     // do action notification
     // if email send with smpt
     // if phone send with third party service or create own service
 
-    return httpCreated(res, { message: 'success' });
+    return httpCreated(res, { message: 'success sending notification to technician' });
   } catch (error) {
     return httpInternalServerError(res);
   }
 };
 
+/** @type {import('express').Router} */
 const acceptedWO = async (req, res) => {
   try {
     const { id } = req.params;
-    const workOrder = await db.workOrder.findByPk(id);
 
+    const workOrder = await db.workOrder.findByPk(id);
     if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+
     const ticket = await db.tickets.findOne({
       where: {
         ticket_number: {
@@ -96,12 +102,14 @@ const acceptedWO = async (req, res) => {
   }
 };
 
+/** @type {import('express').Router} */
 const doneWO = async (req, res) => {
   try {
     const { id } = req.params;
-    const workOrder = await db.workOrder.findByPk(id);
 
+    const workOrder = await db.workOrder.findByPk(id);
     if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+
     const ticket = await db.tickets.findOne({
       where: {
         ticket_number: {
