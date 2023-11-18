@@ -1,4 +1,9 @@
-const { httpSuccess, httpInternalServerError, httpCreated } = require('../../Utils/http-response');
+const {
+  httpSuccess,
+  httpInternalServerError,
+  httpCreated,
+  httpUnprocessableEntity,
+} = require('../../Utils/http-response');
 const db = require('../../models');
 
 /** @type {import('express').Router} */
@@ -43,9 +48,24 @@ const createTicket = async (req, res) => {
   }
 };
 
+const doneTicket = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ticket = await db.tickets.findByPk(id);
+    if (!ticket) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+
+    ticket.status = 'DONE';
+    ticket.save();
+
+    return httpSuccess(res, ticket);
+  } catch (error) {
+    return httpInternalServerError(res);
+  }
+};
+
 module.exports = {
   getTickets,
   getTicketsByID,
   createTicket,
-  // updateTicket,
+  doneTicket,
 };

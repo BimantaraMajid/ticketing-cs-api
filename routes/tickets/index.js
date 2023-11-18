@@ -1,6 +1,11 @@
 const express = require('express');
 const { body } = require('express-validator');
-const { createTicket, getTickets, getTicketsByID } = require('../../controllers/ticket');
+const {
+  createTicket,
+  getTickets,
+  getTicketsByID,
+  doneTicket,
+} = require('../../controllers/ticket');
 const validatePayload = require('../../middleware/express-validator');
 
 const ticketsRouter = express.Router();
@@ -21,5 +26,7 @@ ticketsRouter.post(
   validatePayload,
   createTicket,
 );
+
+ticketsRouter.post('/:id/done', doneTicket);
 
 module.exports = ticketsRouter;
