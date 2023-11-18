@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const { httpNotFound, httpSuccess } = require('./Utils/htttp-response');
+const { httpNotFound, httpSuccess } = require('./Utils/http-response');
 const indexRouter = require('./routes');
 
 const app = express();

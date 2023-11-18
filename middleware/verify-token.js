@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { httpUnauthorized } = require('../Utils/htttp-response');
+const { httpUnauthorized } = require('../Utils/http-response');
 
 /** @type {import('express').Router} */
 // eslint-disable-next-line consistent-return

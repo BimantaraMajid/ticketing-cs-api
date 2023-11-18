@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
   }, {
     sequelize,
-    tableName: 'work_order',
+    tableName: 'work_orders',
   });
   return workOrder;
 };

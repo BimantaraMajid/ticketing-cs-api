@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const Users = require('./Users');
-const { httpSuccess, httpUnauthorized, httpInternalServerError } = require('../../Utils/htttp-response');
+const { httpSuccess, httpUnauthorized, httpInternalServerError } = require('../../Utils/http-response');
 const { generateToken } = require('./token');
 
 const userAdmin = new Users();

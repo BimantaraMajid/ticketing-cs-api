@@ -1,4 +1,4 @@
-const { httpSuccess, httpInternalServerError, httpCreated } = require('../../Utils/htttp-response');
+const { httpSuccess, httpInternalServerError, httpCreated } = require('../../Utils/http-response');
 const db = require('../../models');
 
 /** @type {import('express').Router} */

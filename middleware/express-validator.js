@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { httpBadRequest } = require('../Utils/htttp-response');
+const { httpBadRequest } = require('../Utils/http-response');
 
 // eslint-disable-next-line consistent-return
 const validatePayload = (req, res, next) => {
