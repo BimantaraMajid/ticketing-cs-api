@@ -5,7 +5,6 @@ const { httpUnauthorized } = require('../Utils/htttp-response');
 // eslint-disable-next-line consistent-return
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
-  console.log(token);
 
   if (!token) {
     return httpUnauthorized(res, { message: 'Unauthorized: Token is missing' });
