@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tickets.init({
-    ticket_number: DataTypes.STRING,
+    ticket_number: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     operator: DataTypes.STRING,
     customer: DataTypes.STRING,
     description: DataTypes.STRING,
