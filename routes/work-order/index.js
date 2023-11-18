@@ -1,7 +1,14 @@
 const express = require('express');
 const { body } = require('express-validator');
 const validatePayload = require('../../middleware/express-validator');
-const { getWorkOrder, createWorkOrder, getWorkOrderByID } = require('../../controllers/work-order');
+const {
+  getWorkOrder,
+  createWorkOrder,
+  getWorkOrderByID,
+  sendNotification,
+  acceptedWO,
+  doneWO,
+} = require('../../controllers/work-order');
 
 const workOrdersRouter = express.Router();
 
@@ -31,5 +38,9 @@ workOrdersRouter.post(
   validatePayload,
   createWorkOrder,
 );
+
+workOrdersRouter.post('/:id/send/notification', sendNotification);
+workOrdersRouter.post('/:id/accept-wo', acceptedWO);
+workOrdersRouter.post('/:id/done', doneWO);
 
 module.exports = workOrdersRouter;

@@ -13,7 +13,6 @@ const getWorkOrder = async (req, res) => {
     const workOrders = await db.workOrder.findAndCountAll();
     return httpSuccess(res, workOrders);
   } catch (error) {
-    console.log(error);
     return httpInternalServerError(res);
   }
 };
@@ -50,7 +49,73 @@ const createWorkOrder = async (req, res) => {
     workOrder.setDataValue('ticket_status', ticket.status);
     return httpCreated(res, workOrder);
   } catch (error) {
-    console.log(error);
+    return httpInternalServerError(res);
+  }
+};
+
+const sendNotification = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const workOrder = await db.workOrder.findByPk(id);
+
+    if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+
+    // do action notification
+    // if email send with smpt
+    // if phone send with third party service or create own service
+
+    return httpCreated(res, { message: 'success' });
+  } catch (error) {
+    return httpInternalServerError(res);
+  }
+};
+
+const acceptedWO = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const workOrder = await db.workOrder.findByPk(id);
+
+    if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+    const ticket = await db.tickets.findOne({
+      where: {
+        ticket_number: {
+          [Op.eq]: workOrder.ticket_number,
+        },
+      },
+    });
+
+    ticket.status = 'ON PROGRESS';
+    await ticket.save();
+    workOrder.status = 'ON PROGRESS';
+    await workOrder.save();
+
+    workOrder.setDataValue('ticket_status', ticket.status);
+    return httpCreated(res, workOrder);
+  } catch (error) {
+    return httpInternalServerError(res);
+  }
+};
+
+const doneWO = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const workOrder = await db.workOrder.findByPk(id);
+
+    if (!workOrder) return httpUnprocessableEntity(res, 'work order not found, please provide a valid work order id');
+    const ticket = await db.tickets.findOne({
+      where: {
+        ticket_number: {
+          [Op.eq]: workOrder.ticket_number,
+        },
+      },
+    });
+
+    workOrder.status = 'DONE';
+    await workOrder.save();
+
+    workOrder.setDataValue('ticket_status', ticket.status);
+    return httpCreated(res, workOrder);
+  } catch (error) {
     return httpInternalServerError(res);
   }
 };
@@ -59,5 +124,7 @@ module.exports = {
   getWorkOrder,
   getWorkOrderByID,
   createWorkOrder,
-  // updateWorkOrder,
+  sendNotification,
+  acceptedWO,
+  doneWO,
 };
