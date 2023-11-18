@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npx nodemon app.js",
     "lint": "npx eslint ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "migrate:up": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.3",
-    "sequelize": "^6.35.0"
+    "sequelize": "^6.35.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "eslint": "^8.54.0",
